@@ -78,8 +78,9 @@ message SetRoleResponse {
 }
 
 message ChangePasswordRequest {
-    string old_password = 1;
-    string new_password = 2;
+    string id = 1; // uuid
+    string old_password = 2;
+    string new_password = 3;
 }
 message ChangePasswordResponse {
     bool success = 1;
