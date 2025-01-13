@@ -7,7 +7,7 @@ option go_package = "./sso";
 service AuthService {
     rpc Register(RegisterRequest) returns (RegisterResponse);
     rpc Login(LoginRequest) returns (LoginResponse);
-    rpc Logout(Empty) returns (LogoutResponse);
+    rpc Logout(LogoutRequest) returns (LogoutResponse);
 }
 service UserService {
     rpc GetUser(GetUserRequest) returns (GetUserResponse);
@@ -17,7 +17,7 @@ service UserService {
 }
 service TokenService {
     rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
-    rpc RefreshToken(Empty) returns (RefreshTokenResponse);
+    rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
 }
 
 message User {
@@ -49,6 +49,9 @@ message LoginResponse {
     string refresh_token = 3; // jwt
 }
 
+message LogoutRequest {
+    string token = 1; // jwt
+}
 message LogoutResponse {
     bool success = 1;
 }
@@ -91,6 +94,10 @@ message ValidateTokenRequest {
 }
 message ValidateTokenResponse {
     bool valid = 1;
+}
+
+message RefreshTokenRequest {
+    string token = 1; // jwt
 }
 message RefreshTokenResponse {
     string access_token = 1; // jwt
