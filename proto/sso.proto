@@ -5,18 +5,18 @@ package sso;
 option go_package = "./sso";
 
 service AuthService {
-    rpc Register(RegisterRequest) returns (RegisterResponse);
-    rpc Login(LoginRequest) returns (LoginResponse);
-    rpc Logout(LogoutRequest) returns (LogoutResponse);
+    rpc Register(RegisterRequest) returns (AuthResponse);
+    rpc Login(LoginRequest) returns (AuthResponse);
+    rpc Logout(LogoutRequest) returns (SuccessResponse);
 }
 service UserService {
     rpc GetUser(GetUserRequest) returns (GetUserResponse);
-    rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
-    rpc SetRole(SetRoleRequest) returns (SetRoleResponse);
-    rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse);
+    rpc UpdateUser(UpdateUserRequest) returns (SuccessResponse);
+    rpc SetRole(SetRoleRequest) returns (SuccessResponse);
+    rpc ChangePassword(ChangePasswordRequest) returns (SuccessResponse);
 }
 service TokenService {
-    rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+    rpc ValidateToken(ValidateTokenRequest) returns (SuccessResponse);
     rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
 }
 
@@ -32,18 +32,12 @@ message RegisterRequest {
     string email = 2;
     string password = 3;
 }
-message RegisterResponse {
-    string id = 1; // uuid
-    string access_token = 2; // jwt
-    string refresh_token = 3; // jwt
-}
-
 message LoginRequest {
     string username = 1;
     string email = 2;
     string password = 3;
 }
-message LoginResponse {
+message AuthResponse {
     string id = 1; // uuid
     string access_token = 2; // jwt
     string refresh_token = 3; // jwt
@@ -51,9 +45,6 @@ message LoginResponse {
 
 message LogoutRequest {
     string token = 1; // jwt
-}
-message LogoutResponse {
-    bool success = 1;
 }
 
 message GetUserRequest {
@@ -68,16 +59,10 @@ message UpdateUserRequest {
     string username = 2;
     string email = 3;
 }
-message UpdateUserResponse {
-    bool success = 1;
-}
 
 message SetRoleRequest {
     string email = 1;
     Role wants_role = 2;
-}
-message SetRoleResponse {
-    bool success = 1;
 }
 
 message ChangePasswordRequest {
@@ -85,15 +70,9 @@ message ChangePasswordRequest {
     string old_password = 2;
     string new_password = 3;
 }
-message ChangePasswordResponse {
-    bool success = 1;
-}
 
 message ValidateTokenRequest {
     string token = 1; // jwt
-}
-message ValidateTokenResponse {
-    bool valid = 1;
 }
 
 message RefreshTokenRequest {
@@ -102,6 +81,10 @@ message RefreshTokenRequest {
 message RefreshTokenResponse {
     string access_token = 1; // jwt
     string refresh_token = 2; // jwt
+}
+
+message SuccessResponse {
+    bool success = 1;
 }
 
 enum Role {
