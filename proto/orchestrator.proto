@@ -10,7 +10,7 @@ service ExpressionService {
     rpc Create(CreateRequest) returns (ExpressionResponse);
     rpc Get(ExpressionRequest) returns (ExpressionResponse);
     rpc GetByUserId(GetByUserIdRequest) returns (GetByUserIdResponse);
-    rpc Update(ExpressionRequest) returns (ExpressionResponse);
+    rpc Update(UpdateRequest) returns (ExpressionResponse);
     rpc Delete(ExpressionRequest) returns(DeleteResponse);
 }
 
@@ -39,7 +39,13 @@ message GetByUserIdRequest {
     string user_id = 1;
 }
 message GetByUserIdResponse {
-    repeated Expression expression = 1;
+    repeated Expression expressions = 1;
+}
+
+message UpdateRequest {
+    string id = 1;
+    string user_id = 2;
+    string expression = 3;
 }
 
 message DeleteResponse {

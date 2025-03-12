@@ -33,7 +33,7 @@ type ExpressionServiceClient interface {
 	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*ExpressionResponse, error)
 	Get(ctx context.Context, in *ExpressionRequest, opts ...grpc.CallOption) (*ExpressionResponse, error)
 	GetByUserId(ctx context.Context, in *GetByUserIdRequest, opts ...grpc.CallOption) (*GetByUserIdResponse, error)
-	Update(ctx context.Context, in *ExpressionRequest, opts ...grpc.CallOption) (*ExpressionResponse, error)
+	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*ExpressionResponse, error)
 	Delete(ctx context.Context, in *ExpressionRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
 }
 
@@ -75,7 +75,7 @@ func (c *expressionServiceClient) GetByUserId(ctx context.Context, in *GetByUser
 	return out, nil
 }
 
-func (c *expressionServiceClient) Update(ctx context.Context, in *ExpressionRequest, opts ...grpc.CallOption) (*ExpressionResponse, error) {
+func (c *expressionServiceClient) Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*ExpressionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ExpressionResponse)
 	err := c.cc.Invoke(ctx, ExpressionService_Update_FullMethodName, in, out, cOpts...)
@@ -102,7 +102,7 @@ type ExpressionServiceServer interface {
 	Create(context.Context, *CreateRequest) (*ExpressionResponse, error)
 	Get(context.Context, *ExpressionRequest) (*ExpressionResponse, error)
 	GetByUserId(context.Context, *GetByUserIdRequest) (*GetByUserIdResponse, error)
-	Update(context.Context, *ExpressionRequest) (*ExpressionResponse, error)
+	Update(context.Context, *UpdateRequest) (*ExpressionResponse, error)
 	Delete(context.Context, *ExpressionRequest) (*DeleteResponse, error)
 	mustEmbedUnimplementedExpressionServiceServer()
 }
@@ -123,7 +123,7 @@ func (UnimplementedExpressionServiceServer) Get(context.Context, *ExpressionRequ
 func (UnimplementedExpressionServiceServer) GetByUserId(context.Context, *GetByUserIdRequest) (*GetByUserIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetByUserId not implemented")
 }
-func (UnimplementedExpressionServiceServer) Update(context.Context, *ExpressionRequest) (*ExpressionResponse, error) {
+func (UnimplementedExpressionServiceServer) Update(context.Context, *UpdateRequest) (*ExpressionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
 func (UnimplementedExpressionServiceServer) Delete(context.Context, *ExpressionRequest) (*DeleteResponse, error) {
@@ -205,7 +205,7 @@ func _ExpressionService_GetByUserId_Handler(srv interface{}, ctx context.Context
 }
 
 func _ExpressionService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ExpressionRequest)
+	in := new(UpdateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -217,7 +217,7 @@ func _ExpressionService_Update_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: ExpressionService_Update_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ExpressionServiceServer).Update(ctx, req.(*ExpressionRequest))
+		return srv.(ExpressionServiceServer).Update(ctx, req.(*UpdateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
