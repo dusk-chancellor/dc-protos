@@ -2,4 +2,52 @@ syntax = "proto3";
 
 package orchestrator;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "./orchestrator";
+
+service ExpressionService {
+    rpc Create(CreateRequest) returns (ExpressionResponse);
+    rpc Get(ExpressionRequest) returns (ExpressionResponse);
+    rpc GetByUserId(GetByUserIdRequest) returns (GetByUserIdResponse);
+    rpc Update(ExpressionRequest) returns (ExpressionResponse);
+    rpc Delete(ExpressionRequest) returns(DeleteResponse);
+}
+
+message Expression {
+    string id = 1; // uuid
+    string user_id = 2; // uuid
+    string expression = 3;
+    string answer = 4;
+    Status status = 5;
+    google.protobuf.Timestamp created_at = 6;
+}
+message ExpressionRequest {
+    string id = 1;
+    string user_id = 2;
+}
+message ExpressionResponse {
+    Expression expression = 1;
+}
+
+message CreateRequest {
+    string user_id = 1;
+    string expression = 2;
+}
+
+message GetByUserIdRequest {
+    string user_id = 1;
+}
+message GetByUserIdResponse {
+    repeated Expression expression = 1;
+}
+
+message DeleteResponse {
+    bool success = 1;
+}
+
+enum Status {
+    PENDING = 0;
+    CALCULATED = 1;
+    ERROR = 2;
+}
